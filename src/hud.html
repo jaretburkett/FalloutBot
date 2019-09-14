@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hud</title>
+    <style>
+        html, body{
+            padding:0;
+            margin:0;
+            background:rgba(0,0,0,0.6);
+            color:#ffffff;
+            line-height:13px;
+            overflow:hidden;
+            font-size:10px;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+        }
+    </style>
+</head>
+<body>
+<div id="message"></div>
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script>window.jQuery || document.write('<script src="./js/jquery-3.2.1.min.js"><\/script>')</script>
+
+<script>
+    $(document).ready(function () {
+        const {remote} = require('electron');
+        setInterval(()=>{
+            $('#message').html(remote.getGlobal('sharedObj').hud);
+        }, 10);
+
+    });
+</script>
+</body>
+</html>

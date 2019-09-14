@@ -1,0 +1,120 @@
+html{
+    background: #272822;
+}
+.main-head {
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:50px;
+    background: #171717;
+    color:#ffffff;
+    display: flex;
+    line-height:50px;
+    padding:0 10px;
+    -webkit-app-region: drag
+}
+.main-head .fl-left{
+    font-size: 20px;
+}
+.main-head .fl-left img{
+    height:35px;
+    margin-top:-6px;
+}
+.main-head .fl-center{
+    flex-grow: 1;
+}
+.main-head .fl-right{
+
+}
+
+.main-head .close-icon{
+    height:20px;
+    cursor:pointer;
+    -webkit-app-region: no-drag
+}
+
+#editor{
+    position:absolute;
+    top:50px;
+    bottom:70px;
+    left:0;
+    right:0;
+}
+.main-footer {
+    position: absolute;
+    bottom:20px;
+    left:0;
+    right:0;
+    height:50px;
+    background: #171717;
+    color:#ffffff;
+    display: flex;
+    line-height:50px;
+    padding:0 10px;
+}
+.main-footer .fl-left{
+    font-size: 20px;
+}
+.main-footer .fl-center{
+    flex-grow: 1;
+}
+.main-footer .fl-right{
+
+}
+.main-footer .fl-right .control-icon{
+    height:20px;
+    margin-top: -4px;
+}
+.main-footer .fl-right .control-btn{
+    height:20px;
+    cursor:pointer;
+    text-decoration: none;
+    font-size:18px;
+    color:#ffffff;
+}
+
+.dropdown-item {
+    line-height: 18px;
+}
+
+.dialog{
+    position:absolute;
+    top:50px;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index: 100;
+}
+.dialog-bg{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    cursor:pointer;
+}
+
+.dialog .popup-box{
+    width:500px;
+    max-width: 90%;
+    background:#fff;
+    margin:50px auto;
+    padding: 10px;
+    z-index: 1000;
+    position: relative;
+}
+.status-bar{
+    position:absolute;
+    bottom:0;
+    height:20px;
+    color:#fff;
+    font-size: 12px;
+    line-height: 20px;
+    background:#444444;
+    padding:0 10px;
+    left: 0;
+    right: 0;
+}

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>FalloutBot</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/main.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="main-head">
+    <div class="fl-left">
+        <img src="./img/icon.png"/> Fallout Bot
+    </div>
+    <div class="fl-center"></div>
+    <div class="fl-right">
+        <img src="./img/cancel.svg" class="close-icon"/>
+    </div>
+</div>
+
+<div id="editor">async function loop(){
+
+}</div>
+
+<div class="main-footer">
+    <div class="fl-left">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                New File
+            </button>
+            <div class="dropdown-menu" id="drop-down-menu" aria-labelledby="dropdownMenuButton">
+            </div>
+        </div>
+    </div>
+    <div class="fl-center"></div>
+    <div class="fl-right">
+        <a href="#" id="play-btn" class="control-btn">
+            START
+            <img src="./img/play-button.svg" class="play-icon control-icon"/>
+        </a>
+        <a href="#" id="stop-btn" class="control-btn" style="display:none;">
+            STOP
+            <img src="./img/stop-button.svg" class="stop-icon control-icon"/>
+        </a>
+
+    </div>
+</div>
+<div class="status-bar">
+
+</div>
+
+<!-- The Modal -->
+<div class="dialog" style="display: none;">
+    <div class="dialog-bg">
+    </div>
+    <div class="popup-box">
+        <form id="formScriptName">
+            <div class="form-group">
+                <label for="formScriptNameBox">Script Name</label>
+                <input type="text" class="form-control" id="formScriptNameBox" placeholder="My script">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button  type="button" class="btn btn-danger cancel-save">Cancel</button>
+        </form>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script>window.jQuery || document.write('<script src="./js/jquery-3.2.1.min.js"><\/script>')</script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="./js/falloutbot.js"></script>
+</body>
+</html>
