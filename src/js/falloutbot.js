@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 let currentFilename = null;
 const activeWin = require('active-win');
-var Mousetrap = require('mousetrap');
+const Mousetrap = require('mousetrap');
 let variable = null;
 let fobNeedsToSetup = true;
 
@@ -14,7 +14,7 @@ let config = {
 
 let programLoop = ()=>{};
 
-var loopDelay = 500;
+const loopDelay = 1;
 
 // read config
 const documentsFolder = app.getPath('documents');
@@ -28,7 +28,7 @@ if (fs.existsSync(configFile)){
     }
 }
 
-var editor = ace.edit("editor");
+const editor = ace.edit("editor");
 editor.setTheme("ace/theme/monokai");
 editor.session.setMode("ace/mode/javascript");
 
@@ -47,7 +47,7 @@ function delay(ms){
     })
 }
 
-var isRunning = false;
+let isRunning = false;
 
 function status(message){
     $('.status-bar').html(message);
@@ -120,7 +120,7 @@ function updateFileMenu() {
     let htmlArr = [];
     htmlArr.push(
         `<a class="dropdown-item file-new" href="#">**New**</a>`
-    )
+    );
     for (let i = 0; i < scriptFiles.length; i++) {
         htmlArr.push(
             `<a class="dropdown-item file-select" href="#" data-filename="${scriptFiles[i]}">${scriptFiles[i].split('.js')[0]}</a>`
@@ -131,7 +131,7 @@ function updateFileMenu() {
     $('.file-select').click(function () {
         const filename = $(this).attr("data-filename");
         openFile(filename);
-    })
+    });
     $('.file-new').click(function () {
         newFile();
     });
@@ -152,28 +152,47 @@ function getJsFiles() {
     return scriptFiles;
 }
 
+function logError(err){
+    status('Error');
+    hud('Error');
+    stop();
+    alert(err);
+}
+
 async function runLoop(){
     try{
         if(isRunning && fobNeedsToSetup){
             const codeToRun = editor.getValue();
             eval(codeToRun);
-            programLoop = loop;
+            try {
+                programLoop = loop;
+            } catch (e){
+                logError('Loop is not defined');
+            }
             fobNeedsToSetup = false;
             status('Switch to the game to run loop');
-            setup();
+            try{
+                setup();
+            } catch (e){
+                // setup not required
+            }
         }
     } catch (e){
         status('Error running code');
     }
     try {
-        const activeWinInfo = await activeWin();
+        let activeWinInfo = await activeWin();
         if (isRunning && activeWinInfo.title === 'Fallout76') {
             console.log('Running code');
             // console.log(await activeWin());
             // const codeToRun = editor.getValue();
             // eval("(async () => {" + codeToRun + "})()");
-            await programLoop();
-            status('Running loop');
+            try{
+                await programLoop();
+                status('Running loop');
+            } catch(e){
+                logError(e);
+            }
         }
     } catch (e){
         console.log(e);
