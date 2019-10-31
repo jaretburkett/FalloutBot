@@ -48,6 +48,7 @@
     "active-win": "^5.1.2",
     "electron-context-menu": "^0.15.0",
     "electron-squirrel-startup": "^1.0.0",
+    "memoryjs": "^3.2.3",
     "mousetrap": "^1.6.3",
     "robotjs": "^0.5.1"
   },

@@ -118,3 +118,16 @@ html{
     left: 0;
     right: 0;
 }
+#openScriptFolderBtn{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+    line-height: 30px;
+}
+.main-footer .fl-left .dropdown{
+    font-size: 20px;
+    margin-left: 40px;
+}

@@ -5,8 +5,11 @@ const path = require('path');
 let currentFilename = null;
 const activeWin = require('active-win');
 const Mousetrap = require('mousetrap');
+const memory = require('./js/modules/memory');
+const {shell} = require('electron').remote;
 let variable = null;
 let fobNeedsToSetup = true;
+
 
 let config = {
     lastFile:null
@@ -26,6 +29,10 @@ if (fs.existsSync(configFile)){
     } catch (e){
         console.log(e);
     }
+}
+
+function openScriptFolder(){
+    shell.openItem(scriptFolder);
 }
 
 const editor = ace.edit("editor");
@@ -88,7 +95,12 @@ function openFile(filename) {
 }
 
 function newFile() {
-    editor.session.setValue(`async function loop(){
+    editor.session.setValue(`
+async function setup(){
+    
+}
+
+async function loop(){
     
 }`);
     $('#dropdownMenuButton').html('Unsaved File');
@@ -172,7 +184,7 @@ async function runLoop(){
             fobNeedsToSetup = false;
             status('Switch to the game to run loop');
             try{
-                setup();
+                await setup();
             } catch (e){
                 // setup not required
             }
@@ -251,6 +263,11 @@ $(document).ready(function () {
         currentFilename = fileName;
         saveFile();
         $('.dialog').hide();
+    });
+
+    $('#openScriptFolderBtn').click(function(event){
+        event.preventDefault();
+        openScriptFolder();
     });
 
     editor.commands.addCommand({
