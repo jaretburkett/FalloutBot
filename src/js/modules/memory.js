@@ -1,5 +1,7 @@
 const memoryjs = require('memoryjs');
 const processName = "Fallout76.exe";
+const processTitle = "Fallout76";
+const activeWin = require('active-win');
 
 
 function openMemory(processName){
@@ -11,21 +13,36 @@ function openMemory(processName){
 }
 
 function writeMemory(address, isOffset, value, type){
-    const [handle, moduleAddress] = openMemory(processName);
-    const memAddress = isOffset ? moduleAddress + address : address;
-    memoryjs.writeMemory(handle, memAddress, value, type);
-    memoryjs.closeProcess(handle);
+    let activeWinInfo = activeWin.sync();
+    if(activeWinInfo && activeWinInfo.title === processTitle){
+        const processIdentifier = activeWinInfo.owner.processId;
+        const [handle, moduleAddress] = openMemory(processIdentifier);
+        const memAddress = isOffset ? moduleAddress + address : address;
+        memoryjs.writeMemory(handle, memAddress, value, type);
+        memoryjs.closeProcess(handle);
+    }
 }
 
 function readMemory(address, isOffset, type){
-    const [handle, moduleAddress] = openMemory(processName);
-    const memAddress = isOffset ? moduleAddress + address : address;
-    const value = memoryjs.readMemory(handle, memAddress, type);
-    memoryjs.closeProcess(handle);
-    return value;
+    let activeWinInfo = activeWin.sync();
+    if(activeWinInfo && activeWinInfo.title === processTitle) {
+        const [handle1, moduleAddress1] = openMemory(processName);
+        console.log('handle1', handle1);
+        console.log('moduleAddress1',moduleAddress1);
+        console.log('activeWinInfo',activeWinInfo);
+        const processIdentifier = activeWinInfo.owner.processId;
+        const [handle, moduleAddress] = openMemory(processIdentifier);
+        const memAddress = isOffset ? moduleAddress + address : address;
+        const value = memoryjs.readMemory(handle, memAddress, type);
+        memoryjs.closeProcess(handle);
+        return value;
+    } else {
+        console.log('activeWinInfo', activeWinInfo);
+        return null;
+    }
 }
 
 
-module.exports.writeMemory = writeMemory;
-module.exports.readMemory = readMemory;
+module.exports.write = writeMemory;
+module.exports.read = readMemory;
 

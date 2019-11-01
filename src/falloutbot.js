@@ -9,13 +9,16 @@ const memory = require('./js/modules/memory');
 const {shell} = require('electron').remote;
 let variable = null;
 let fobNeedsToSetup = true;
+const { globalShortcut } = require('electron').remote;
+//https://electronjs.org/docs/api/accelerator
+
 
 
 let config = {
     lastFile:null
 };
 
-let programLoop = ()=>{};
+let programLoop = null;
 
 const loopDelay = 1;
 
@@ -80,6 +83,8 @@ function stop() {
     // set running to false to stop running script
     isRunning = false;
     status('Stopped');
+    globalShortcut.unregisterAll();
+    programLoop = null;
 }
 
 
@@ -179,7 +184,8 @@ async function runLoop(){
             try {
                 programLoop = loop;
             } catch (e){
-                logError('Loop is not defined');
+                status('Loop is not defined');
+                programLoop = null;
             }
             fobNeedsToSetup = false;
             status('Switch to the game to run loop');
@@ -194,14 +200,17 @@ async function runLoop(){
     }
     try {
         let activeWinInfo = await activeWin();
-        if (isRunning && activeWinInfo.title === 'Fallout76') {
+        // console.log(activeWinInfo);
+        if (activeWinInfo && isRunning && activeWinInfo.title === 'Fallout76') {
             console.log('Running code');
             // console.log(await activeWin());
             // const codeToRun = editor.getValue();
             // eval("(async () => {" + codeToRun + "})()");
             try{
-                await programLoop();
-                status('Running loop');
+                if(programLoop !== null){
+                    await programLoop();
+                    status('Running loop');
+                }
             } catch(e){
                 logError(e);
             }
@@ -210,7 +219,7 @@ async function runLoop(){
         console.log(e);
         status('Loop error')
     }
-    await delay(loopDelay);
+    await delay(programLoop !== null ? loopDelay : 200);
     runLoop();
 }
 
