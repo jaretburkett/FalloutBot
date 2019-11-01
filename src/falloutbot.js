@@ -202,7 +202,7 @@ async function runLoop(){
         let activeWinInfo = await activeWin();
         // console.log(activeWinInfo);
         if (activeWinInfo && isRunning && activeWinInfo.title === 'Fallout76') {
-            console.log('Running code');
+            // console.log('Running code');
             // console.log(await activeWin());
             // const codeToRun = editor.getValue();
             // eval("(async () => {" + codeToRun + "})()");
