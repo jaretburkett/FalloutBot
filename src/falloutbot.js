@@ -11,6 +11,7 @@ let variable = null;
 let fobNeedsToSetup = true;
 const { globalShortcut } = require('electron').remote;
 //https://electronjs.org/docs/api/accelerator
+const player = require('./js/modules/Player');
 
 
 
@@ -174,6 +175,11 @@ function logError(err){
     hud('Error');
     stop();
     alert(err);
+}
+
+function isFocused(){
+    let activeWinInfo = activeWin.sync();
+    return activeWinInfo && isRunning && activeWinInfo.title === 'Fallout76';
 }
 
 async function runLoop(){

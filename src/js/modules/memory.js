@@ -26,10 +26,6 @@ function writeMemory(address, isOffset, value, type){
 function readMemory(address, isOffset, type){
     let activeWinInfo = activeWin.sync();
     if(activeWinInfo && activeWinInfo.title === processTitle) {
-        // const [handle1, moduleAddress1] = openMemory(processName);
-        // console.log('handle1', handle1);
-        // console.log('moduleAddress1',moduleAddress1);
-        // console.log('activeWinInfo',activeWinInfo);
         const processIdentifier = activeWinInfo.owner.processId;
         const [handle, moduleAddress] = openMemory(processIdentifier);
         const memAddress = isOffset ? moduleAddress + address : address;
@@ -42,18 +38,17 @@ function readMemory(address, isOffset, type){
     }
 }
 
-function findCodeSig(sigString){
+function findCodeSig(sigString, asOffset = false){
     let activeWinInfo = activeWin.sync();
     if(activeWinInfo && activeWinInfo.title === processTitle) {
-        // const [handle1, moduleAddress1] = openMemory(processName);
-        // console.log('handle1', handle1);
-        // console.log('moduleAddress1',moduleAddress1);
-        // console.log('activeWinInfo',activeWinInfo);
         const processIdentifier = activeWinInfo.owner.processId;
         const [handle, moduleAddress] = openMemory(processIdentifier);
-        const offset = memoryjs.findPattern(handle, processName, sigString, memoryjs.SUBSTRACT, 0, 0);
+        let address = memoryjs.findPattern(handle, processName, sigString, memoryjs.SUBSTRACT, 0, 0);
+        if(asOffset){
+            address = address - moduleAddress;
+        }
         memoryjs.closeProcess(handle);
-        return offset;
+        return address;
     } else {
         console.log('activeWinInfo', activeWinInfo);
         return null;
@@ -62,6 +57,7 @@ function findCodeSig(sigString){
 
 
 module.exports.write = writeMemory;
+module.exports.openMemory = openMemory;
 module.exports.read = readMemory;
 module.exports.findCodeSig = findCodeSig;
 
