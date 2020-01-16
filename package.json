@@ -10,7 +10,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "make_icons":"electron-icon-maker --input=./src/img/icon.png --output=./misc/"
+    "make_icons": "electron-icon-maker --input=./src/img/icon.png --output=./misc/"
   },
   "keywords": [],
   "author": {
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "active-win": "^5.1.2",
+    "axios": "^0.19.0",
     "electron-context-menu": "^0.15.0",
     "electron-squirrel-startup": "^1.0.0",
     "memoryjs": "^3.2.3",
