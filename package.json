@@ -52,6 +52,7 @@
     "axios": "^0.19.0",
     "electron-context-menu": "^0.15.0",
     "electron-squirrel-startup": "^1.0.0",
+    "jimp": "^0.9.3",
     "memoryjs": "^3.2.3",
     "mousetrap": "^1.6.3",
     "robotjs": "^0.5.1"

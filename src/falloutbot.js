@@ -201,7 +201,7 @@ async function runLoop(){
     try {
         let activeWinInfo = await activeWin();
         // console.log(activeWinInfo);
-        if (activeWinInfo && isRunning && activeWinInfo.title === 'Fallout76') {
+        if (activeWinInfo && isRunning && activeWinInfo.title === 'No Man\'s Sky') {
             // console.log('Running code');
             // console.log(await activeWin());
             // const codeToRun = editor.getValue();

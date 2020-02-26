@@ -1,12 +1,12 @@
 const memoryjs = require('memoryjs');
-const processName = "Fallout76.exe";
-const processTitle = "Fallout76";
+const processName = "NMS.exe";
+const processTitle = "No Man's Sky";
 const activeWin = require('active-win');
 
 
 function openMemory(processName){
     const process = memoryjs.openProcess(processName);
-    if (!process.szExeFile) throw ('Fallout 76 is not open');
+    if (!process.szExeFile) throw ('No man\'s sky is not open');
     const handle = process.handle;
     const address = process.modBaseAddr;
     return [handle, address];
@@ -14,6 +14,7 @@ function openMemory(processName){
 
 function writeMemory(address, isOffset, value, type){
     let activeWinInfo = activeWin.sync();
+    // console.log(activeWinInfo);
     if(activeWinInfo && activeWinInfo.title === processTitle){
         const processIdentifier = activeWinInfo.owner.processId;
         const [handle, moduleAddress] = openMemory(processIdentifier);
@@ -49,9 +50,10 @@ function findCodeSig(sigString, asOffset){
         // console.log('handle1', handle1);
         // console.log('moduleAddress1',moduleAddress1);
         // console.log('activeWinInfo',activeWinInfo);
-        const processIdentifier = activeWinInfo.owner.processId;
+        // memoryjs.openProcess(processName);
+        // const processIdentifier = processName;
         // console.log(processIdentifier);
-        const [handle, moduleAddress] = openMemory(processIdentifier);
+        const [handle, moduleAddress] = openMemory(processName);
         const offset = memoryjs.findPattern(handle, processName, sigString, memoryjs.SUBSTRACT, 0, 0);
         memoryjs.closeProcess(handle);
         if(asOffset){
