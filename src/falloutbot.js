@@ -196,6 +196,7 @@ async function runLoop(){
             }
         }
     } catch (e){
+        console.log(e);
         status('Error running code');
     }
     try {
@@ -219,7 +220,7 @@ async function runLoop(){
         console.log(e);
         status('Loop error')
     }
-    await delay(programLoop !== null ? loopDelay : 200);
+    await delay(isRunning ? loopDelay : 200);
     runLoop();
 }
 
