@@ -24,7 +24,7 @@ const loopDelay = 1;
 
 // read config
 const documentsFolder = app.getPath('documents');
-const scriptFolder = path.join(documentsFolder, 'FalloutBot');
+const scriptFolder = path.join(documentsFolder, 'NMSbot');
 const configFile = path.join(scriptFolder, 'config.json');
 if (fs.existsSync(configFile)){
     try {
@@ -90,7 +90,7 @@ function stop() {
 
 function openFile(filename) {
     const documentsFolder = app.getPath('documents');
-    const scriptFolder = path.join(documentsFolder, 'FalloutBot');
+    const scriptFolder = path.join(documentsFolder, 'NMSbot');
     const content = fs.readFileSync(path.join(scriptFolder, filename), 'utf8');
     // console.log(content);
     editor.session.setValue(content);
@@ -123,7 +123,7 @@ function saveFile() {
         console.log('Saving file');
         const fileContent = editor.getValue();
         const documentsFolder = app.getPath('documents');
-        const scriptFolder = path.join(documentsFolder, 'FalloutBot');
+        const scriptFolder = path.join(documentsFolder, 'NMSbot');
         const filePath = path.join(scriptFolder, currentFilename);
         fs.writeFileSync(filePath, fileContent);
         updateFileMenu();
@@ -158,7 +158,7 @@ function updateFileMenu() {
 function getJsFiles() {
     let scriptFiles = [];
     const documentsFolder = app.getPath('documents');
-    const scriptFolder = path.join(documentsFolder, 'FalloutBot');
+    const scriptFolder = path.join(documentsFolder, 'NMSbot');
     const allFiles = fs.readdirSync(scriptFolder);
     // console.log('AllFiles', allFiles);
     for (let i = 0; i < allFiles.length; i++) {

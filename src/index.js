@@ -25,7 +25,7 @@ const createWindow = () => {
 
     //make storage folder if it does not exist
     const documentsFolder = app.getPath('documents');
-    const scriptFolder = path.join(documentsFolder, 'FalloutBot');
+    const scriptFolder = path.join(documentsFolder, 'NMSbot');
     if (!fs.existsSync(scriptFolder)){
         fs.mkdirSync(scriptFolder);
     }
