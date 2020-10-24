@@ -57,7 +57,7 @@ function delay(ms){
     })
 }
 
-let isRunning = false;
+let _isRunning = false;
 
 function status(message){
     $('.status-bar').html(message);
@@ -71,7 +71,7 @@ function start() {
     $('#play-btn').hide();
     $('#stop-btn').show();
     // set running to true so loop will run
-    isRunning = true;
+    _isRunning = true;
     // set needs to setup to true to trigget setup on first loop
     fobNeedsToSetup = true;
     status('Setting up script');
@@ -81,7 +81,7 @@ function stop() {
     $('#play-btn').show();
     $('#stop-btn').hide();
     // set running to false to stop running script
-    isRunning = false;
+    _isRunning = false;
     status('Stopped');
     globalShortcut.unregisterAll();
     programLoop = null;
@@ -127,6 +127,7 @@ function saveFile() {
         const filePath = path.join(scriptFolder, currentFilename);
         fs.writeFileSync(filePath, fileContent);
         updateFileMenu();
+        console.log(`Saved file to ${filePath}`);
         $('#dropdownMenuButton').html(currentFilename.split('.js')[0]);
     }
     saveConfig();
@@ -170,21 +171,23 @@ function getJsFiles() {
 }
 
 function logError(err){
+    console.log('ERROR', err)
     status('Error');
     hud('Error');
     stop();
-    alert(err);
+    // alert(err);
 }
 
-async function runLoop(){
+async function _runLoop(){
     try{
-        if(isRunning && fobNeedsToSetup){
+        if(_isRunning && fobNeedsToSetup){
             const codeToRun = editor.getValue();
             eval(codeToRun);
             try {
                 programLoop = loop;
             } catch (e){
                 status('Loop is not defined');
+                console.log(e)
                 programLoop = null;
             }
             fobNeedsToSetup = false;
@@ -192,27 +195,24 @@ async function runLoop(){
             try{
                 await setup();
             } catch (e){
+                console.log(e)
                 // setup not required
             }
         }
     } catch (e){
         status('Error running code');
+        console.log(e)
     }
     try {
         let activeWinInfo = await activeWin();
-        // console.log(activeWinInfo);
-        if (activeWinInfo && isRunning && activeWinInfo.title === 'Fallout76') {
+        if (activeWinInfo && _isRunning && activeWinInfo.title === 'Fallout76') {
             // console.log('Running code');
             // console.log(await activeWin());
             // const codeToRun = editor.getValue();
             // eval("(async () => {" + codeToRun + "})()");
-            try{
-                if(programLoop !== null){
-                    await programLoop();
-                    status('Running loop');
-                }
-            } catch(e){
-                logError(e);
+            if(programLoop !== null){
+                await programLoop();
+                status('Running loop');
             }
         }
     } catch (e){
@@ -220,7 +220,39 @@ async function runLoop(){
         status('Loop error')
     }
     await delay(programLoop !== null ? loopDelay : 200);
-    runLoop();
+    _runLoop();
+}
+
+function setupConsole(){
+    // if (typeof console  != "undefined") {
+    //     if (typeof console.log != 'undefined')
+    //         console.olog = console.log;
+    //     else
+    //         console.olog = function() {};
+    // }
+    console.olog = console.log;
+
+    console.log = function(message) {
+        const maxLength = 20;
+
+        console.olog(message);
+        const $pre = $('#console pre');
+        const $console = $('#console');
+        const txt = $pre.html();
+        let arr = txt.split('\n');
+        // remove empty vals
+        arr = arr.filter((el) => { 
+            return el !== '' && el !== ' ';
+        })
+        arr.push(message);
+        if(arr.length > maxLength){
+            arr = arr.slice(arr.length - maxLength)
+        }
+
+        $pre.html(arr.join('\n'));
+        $console.scrollTop($console.prop("scrollHeight"));
+    };
+    console.error = console.debug = console.info =  console.log
 }
 
 $(document).ready(function () {
@@ -254,6 +286,10 @@ $(document).ready(function () {
     Mousetrap.bind(['command+s', 'ctrl+s'], function () {
         console.log('command s or control s');
         saveFile();
+        if(_isRunning){
+        stop();
+        start();
+        }
         // return false to prevent default browser behavior
         // and stop event from bubbling
         return false;
@@ -278,6 +314,7 @@ $(document).ready(function () {
         event.preventDefault();
         openScriptFolder();
     });
+    setupConsole();
 
     editor.commands.addCommand({
         name: 'saveFile',
@@ -295,5 +332,6 @@ $(document).ready(function () {
         openFile(config.lastFile);
     }
     updateFileMenu();
-    runLoop();
+    console.log('Fallout Bot Ready')
+    _runLoop();
 });

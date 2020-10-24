@@ -37,7 +37,7 @@ html{
 #editor{
     position:absolute;
     top:50px;
-    bottom:70px;
+    bottom:200px;
     left:0;
     right:0;
 }
@@ -117,6 +117,26 @@ html{
     padding:0 10px;
     left: 0;
     right: 0;
+}
+#console{
+    position:absolute;
+    bottom:70px;
+    height:130px;
+    color:#fff;
+    font-size: 12px;
+    line-height: 20px;
+    background: #0c0c0c;
+    padding: 5px 10px;
+    left: 0;
+    right: 0;
+    overflow: auto;
+    border-top: 10px solid #171717;
+    border-left: 10px solid #171717;
+    border-right: 10px solid #171717;
+}
+#console pre{
+    color: #ddd;
+    margin: 0;
 }
 #openScriptFolderBtn{
     position: absolute;
